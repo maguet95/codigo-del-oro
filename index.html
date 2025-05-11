@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Código del Oro</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1cwF90thUfoUkKfJm0tHXdf3-5CrFf0s",
+      authDomain: "codigodeloro.firebaseapp.com",
+      projectId: "codigodeloro",
+      storageBucket: "codigodeloro.firebasestorage.app",
+      messagingSenderId: "463504472808",
+      appId: "1:463504472808:web:dbe1f530fe834f6337275d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginForm = document.getElementById('login-form');
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = loginForm.email.value;
+      const password = loginForm.password.value;
+      signInWithEmailAndPassword(auth, email, password)
+        .catch(error => alert('Error de inicio de sesión'));
+    });
+
+    onAuthStateChanged(auth, user => {
+      document.getElementById('login-container').style.display = user ? 'none' : 'block';
+      document.getElementById('main-content').style.display = user ? 'block' : 'none';
+    });
+
+    window.logout = () => signOut(auth);
+  </script>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    header {
+      background-color: #161b22;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #30363d;
+    }
+    header h1 {
+      margin: 0;
+      color: #f9d342;
+    }
+    #login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #main-content {
+      display: none;
+    }
+    form {
+      background: #161b22;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+    }
+    form input {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 200px;
+    }
+    form button {
+      background: #f9d342;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="login-container">
+    <form id="login-form">
+      <h2>Acceso exclusivo</h2>
+      <input type="email" name="email" placeholder="Correo" required />
+      <input type="password" name="password" placeholder="Contraseña" required />
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+
+  <div id="main-content">
+    <header>
+      <h1>El Código del Oro</h1>
+      <p>Proyecciones en vivo con Ondas de Elliott</p>
+      <button onclick="logout()">Cerrar sesión</button>
+    </header>
+    <main>
+      <div class="tradingview-widget-container" style="height:90vh;width:100%">
+        <div id="tradingview_chart"></div>
+        <div class="tradingview-widget-copyright">
+          <a href="https://es.tradingview.com/" rel="noopener" target="_blank">
+            <span class="blue-text">Siga los mercados en TradingView</span>
+          </a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script type="text/javascript">
+    new TradingView.widget({
+      "autosize": true,
+      "symbol": "OANDA:XAUUSD",
+      "interval": "D",
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1",
+      "locale": "es",
+      "container_id": "tradingview_chart",
+      "allow_symbol_change": false,
+      "support_host": "https://www.tradingview.com"
+    });
+  </script>
+</body>
+</html>
