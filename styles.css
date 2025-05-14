@@ -91,3 +91,13 @@ main {
     min-height: 400px;
   }
 }
+
+.tradingview-widget-container {
+  width: 100%;
+  max-width: 1200px; /* ajusta esto según el tamaño deseado */
+  margin: 0 auto;    /* centra horizontalmente */
+  padding: 20px;      /* espacio interno */
+  height: 90vh;
+  box-sizing: border-box;
+}
+
